@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Event;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+
 class EventController extends Controller
 {
   /**
@@ -44,15 +47,40 @@ class EventController extends Controller
   * Store a newly created resource in storage.
   *
   * @param  \Illuminate\Http\Request  $request
-  * @return \Illuminate\Http\Response
-  */
+  * @return \Illuminate\Http\RedirectResponse
+   */
   public function store(Request $request)
   {
+      $validator = Validator::make($request->all(), [
+          'title' =>  'required|min:4|max:20',
+          'host' => 'required',
+          'description' => 'required',
+          'category' =>  'required',
+          'capacity' => 'required',
+          'special_guests' => 'required',
+          'date' => 'required',
+          'event_start_time' =>  'required',
+          'event_end_time' => 'required',
+          'sales_start_time' =>  'required',
+          'sales_end_time' => 'required',
+          'sales_start_date' => 'required',
+          'sales_end_date' =>  'required',
+          'price' => 'required',
+          'theme' => 'required',
+          'giveaways' => 'required',
+      ]);
+
+      //$description=strip_tags(request('description'));
+      if ($validator->fails()) {
+          //return $validator->errors();
+          return Redirect::back()->withErrors($validator)->withInput();
+      }
+
     $event=new Event();
     $user_id=auth()->user()->id;
     $event->user_id=$user_id;
     $event->title=request('title');
-    $event->description=strip_tags(request('description'));
+    $event->description=request('description');
     $event->category_id=request('category');
     $event->location=request('location');
     $event->capacity=request('capacity');
@@ -62,6 +90,10 @@ class EventController extends Controller
     $event->sales_end_time=request('sales_end_time');
     $event->sales_start_date=request('sales_start_date');
     $event->sales_end_date=request('sales_end_date');
+
+    //
+      $event->event_start_time=request('event_start_time');
+      $event->event_end_time=request('event_end_time');
     $event->price=request('price');
     // $event->venue=request('venue');
     // $event->ticket_type=request('ticket_type');
@@ -79,7 +111,7 @@ class EventController extends Controller
 
     }
     if ($event->save()) {
-      return redirect()->back()->with('success','Event created successfully!!');
+        return Redirect::route('events.display')->with('success','Event created successfully!!');
     }
     else {
       return redirect()->back()->with('error','Error occurred while creating event!!');

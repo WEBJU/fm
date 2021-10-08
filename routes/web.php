@@ -30,10 +30,11 @@ Route::get('/gallery', [App\Http\Controllers\GalleryController::class, 'index'])
 
 Route::view('home', 'home')->middleware('auth');
 //event routes
-Route::view('events/create','events.index');
+Route::view('events/create','events.index')->middleware('auth');
 Route::post('/create-event',[App\Http\Controllers\EventController::class, 'store'])->name('create.post')->middleware('auth');
 Route::get('/admin',[App\Http\Controllers\AdminController::class, 'index'])->name('dashboard');
-Route::get('/show-event',[App\Http\Controllers\EventController::class, 'index'])->name('events.display');
+Route::get('/show-event',[App\Http\Controllers\EventController::class, 'index'])->name('events.display')->middleware('auth');
+
 Route::view('events','sports');
 Route::get('events/{id}',[App\Http\Controllers\EventController::class, 'singleEvent'])->name('events.show');
 Route::get('event/{eventId}',[App\Http\Controllers\EventController::class, 'show'])->name('events.single');
@@ -49,3 +50,7 @@ Route::post('/create-account',[App\Http\Controllers\AuthController::class, 'crea
 Route::post('/loginUser',[App\Http\Controllers\AuthController::class, 'loginUser'])->name('login.post');
 Route::post('/edit-section', [App\Http\Controllers\SectionController::class, 'update'])->name('edit-section');
 // Route::get('/login',[App\Http\Controllers\AdminController::class,'profile']);
+//Route::get('/user-dashboard', [App\Http\Controllers\UserController::class, 'index']);
+Route::get('/user-dashboard',[App\Http\Controllers\UserController::class, 'dashboard'])->name('user.dashboard')->middleware('auth');
+Route::get('/user-profile',[App\Http\Controllers\UserController::class, 'edit'])->name('user.profile')->middleware('auth');
+Route::get('/edit-profile',[App\Http\Controllers\UserController::class, 'update'])->name('profile.edit')->middleware('auth');

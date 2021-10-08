@@ -1,6 +1,6 @@
-@include('partials.head')
-@include('partials.navbar')
-<section style="margin-top:300px;">
+@extends('emanager.index')
+@section('content')
+<section style="margin-top:30px;">
   @include('partials.css')
   <div class="container">
     {{-- @include('sweet::alert') --}}
@@ -9,7 +9,6 @@
     swal("{{ session('alert') }}");
     @endif
   </script>
-  <div class="card card-margin">
     <div class="row">
 
       {{-- <div class="col-md-4">
@@ -63,7 +62,6 @@
   </div>
 
 </div>
-</div>
 
 </section>
-@include('partials.footer')
+@endsection

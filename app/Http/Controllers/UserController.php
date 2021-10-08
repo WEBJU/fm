@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Crypt;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,7 +21,9 @@ class UserController extends Controller
     {
         return view('emanager.index');
     }
-
+        public function dashboard(){
+             return view('emanager.user');
+        }
     /**
      * Show the form for creating a new resource.
      *
@@ -43,10 +51,7 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
-    {
-        //
-    }
+
 
     /**
      * Show the form for editing the specified resource.
@@ -54,9 +59,11 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit()
     {
-        //
+        $id=auth()->user()->id;
+        $user = User::findOrFail($id);
+        return view('emanager.edit',compact('user'));
     }
 
     /**

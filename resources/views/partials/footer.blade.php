@@ -91,7 +91,7 @@
   <script src="{{URL::asset('assets/js/popper.min.js')}}"></script>
   <script src="{{URL::asset('assets/js/bootstrap.min.js')}}"></script>
   <!--Google maps js -->
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script type="text/javascript" src="http://maps.google.com/maps/api/js?key=AIzaSyC4LIsiVILxBu9bK6vX-NMrzEXlDdsO21w&sensor=false&libraries=places"></script>
   <!-- All JS Custom Plugins Link Here here -->
   <script src="{{URL::asset('assets/js/vendor/modernizr-3.5.0.min.js')}}"></script>
@@ -478,3 +478,49 @@ $(document).ready(function () {
 })
 })(jQuery)
   </script>
+<script>
+  @if(Session::has('message'))
+          toastr.options =
+          {
+            "closeButton" : false,
+            "progressBar" : true
+          }
+  toastr.success("{{ session('message') }}");
+  @endif
+
+          @if(Session::has('success'))
+          toastr.options =
+          {
+            "closeButton" : true,
+            "progressBar" : true
+          }
+  toastr.success("{{ session('success') }}");
+  @endif
+
+          @if(Session::has('error'))
+          toastr.options =
+          {
+            "closeButton" : true,
+            "progressBar" : true
+          }
+  toastr.error("{{ session('error') }}");
+  @endif
+
+          @if(Session::has('info'))
+          toastr.options =
+          {
+            "closeButton" : true,
+            "progressBar" : true
+          }
+  toastr.info("{{ session('info') }}");
+  @endif
+
+          @if(Session::has('warning'))
+          toastr.options =
+          {
+            "closeButton" : true,
+            "progressBar" : true
+          }
+  toastr.warning("{{ session('warning') }}");
+  @endif
+</script>
